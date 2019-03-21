@@ -2,7 +2,9 @@ package com.company;
 
 import com.company.exeptions.NoSuchCustomerException;
 import com.company.exeptions.NoSuchTripException;
+import javafx.scene.input.DataFormat;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class MainHandler implements UserInterface{
@@ -52,6 +54,9 @@ public class MainHandler implements UserInterface{
         String end;
         int price;
 
+        String[] startData;
+        String[] endData;
+
         switch (choice){
             case "1":
                 System.out.println("Cel wycieczki:");
@@ -60,10 +65,12 @@ public class MainHandler implements UserInterface{
 
                 System.out.println("Początek wycieczki (d-m-r): ");
                 start = scanner.next();
+                startData = start.split("-");
                 scanner.nextLine();
 
                 System.out.println("Koniec wycieczki (d-m-r): ");
                 end = scanner.next();
+                endData = end.split("-");
                 scanner.nextLine();
 
                 System.out.println("Price: ");
@@ -72,7 +79,9 @@ public class MainHandler implements UserInterface{
 
                 System.out.println("Own Arrival Discount:");
                 int ownArrivalDiscount = scanner.nextInt();
-                DomesticTrip domesticTrip = new DomesticTrip(Date.of(start), Date.of(end),
+                DomesticTrip domesticTrip = new DomesticTrip(LocalDate.of(Integer.parseInt(startData[2]),
+                                        Integer.parseInt(startData[1]), Integer.parseInt(startData[0])),
+                        LocalDate.of(Integer.parseInt(endData[2]), Integer.parseInt(endData[1]), Integer.parseInt(endData[0])),
                                         destination, ownArrivalDiscount, price);
 
                 travelOffice.addTrip(destination, domesticTrip);
@@ -88,10 +97,12 @@ public class MainHandler implements UserInterface{
 
                 System.out.println("Początek wycieczki (d-m-r): ");
                 start = scanner.next();
+                startData = start.split("-");
                 scanner.nextLine();
 
                 System.out.println("Koniec wycieczki (d-m-r): ");
                 end = scanner.next();
+                endData = end.split("-");
                 scanner.nextLine();
 
                 System.out.println("Price: ");
@@ -100,7 +111,9 @@ public class MainHandler implements UserInterface{
 
                 System.out.println("Insurance: ");
                 int insurance = scanner.nextInt();
-                AbroadTrip abroadTrip = new AbroadTrip(Date.of(start), Date.of(end),
+                AbroadTrip abroadTrip = new AbroadTrip(LocalDate.of(Integer.parseInt(startData[2]),
+                        Integer.parseInt(startData[1]), Integer.parseInt(startData[0])),
+                        LocalDate.of(Integer.parseInt(endData[2]), Integer.parseInt(endData[1]), Integer.parseInt(endData[0])),
                         destination, insurance, price);
 
                 travelOffice.addTrip(destination, abroadTrip);

@@ -1,10 +1,12 @@
 package com.company;
 
+import java.time.LocalDate;
+
 public class AbroadTrip extends Trip {
 
     private int insurance;
 
-    public AbroadTrip(Date start, Date end, String destination, int insurance, int price) {
+    public AbroadTrip(LocalDate start, LocalDate end, String destination, int insurance, int price) {
         super(start, end, destination, price);
         this.insurance = insurance;
     }
