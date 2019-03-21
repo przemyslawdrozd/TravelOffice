@@ -1,12 +1,36 @@
 package com.company;
 
+import java.io.IOException;
 import java.util.Scanner;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class Test {
 
+    private static Logger globalLogger = Logger.getLogger("");
+    private static Logger logger = Logger.getLogger("TravelOffice");
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
+
+        Handler[] handlers = globalLogger.getHandlers();
+        for (Handler h: handlers){
+            globalLogger.removeHandler(h);
+        }
+
+        FileHandler fileHandler;
+        try {
+            fileHandler = new FileHandler("log.txt");
+            fileHandler.setFormatter(new SimpleFormatter());
+            logger.addHandler(fileHandler);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        logger.info("start");
         showMenu();
     }
 

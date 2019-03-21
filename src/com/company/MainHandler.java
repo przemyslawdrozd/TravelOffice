@@ -6,8 +6,10 @@ import javafx.scene.input.DataFormat;
 
 import java.time.LocalDate;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class MainHandler implements UserInterface{
+    private static Logger logger = Logger.getLogger("TravelOffice");
 
     private Scanner scanner = new Scanner(System.in);
     private TravelOffice travelOffice;
@@ -40,6 +42,7 @@ public class MainHandler implements UserInterface{
         travelOffice.addCustomer(customer);
         System.out.println("Klient dodany do bazy!");
         scanner.nextLine();
+        logger.info("Klient " + name + " dodany!");
         return customer;
     }
 
@@ -88,6 +91,7 @@ public class MainHandler implements UserInterface{
                 scanner.nextLine();
 
                 System.out.println("Wycieczka dodana!");
+                logger.info("Wycieczka " + destination + " dodana do listy!");
                 return domesticTrip;
 
             case "2":
@@ -120,8 +124,10 @@ public class MainHandler implements UserInterface{
                 scanner.nextLine();
 
                 System.out.println("Wycieczka dodana!");
+                logger.info("Wycieczka " + destination + " dodana do listy!");
                 return abroadTrip;
         }
+        logger.warning("Błąd podczas dodania wycieczki!");
         return null;
     }
 
@@ -141,6 +147,7 @@ public class MainHandler implements UserInterface{
                     Trip trip = travelOffice.getTrips().get(destination);
                     System.out.println("Klient " + name + " dodany do wycieczki " + destination);
                     customer.assignTrip(trip);
+                    logger.info("Klient " + name + " dodany do wycieczki " + destination);
                     return;
                 }
             }
@@ -148,6 +155,7 @@ public class MainHandler implements UserInterface{
             return;
         } catch (NoSuchCustomerException noSuchCustomerException) {
             noSuchCustomerException.printStackTrace();
+            logger.warning("Błąd wyszukiwania klienta: " + name);
         }
         System.out.println("Nie ma takiego klienta");
     }
@@ -176,8 +184,8 @@ public class MainHandler implements UserInterface{
                 try {
                     travelOffice.removeTrip(destination);
                     System.out.println("Wycieczka do " + destination + " usunieta!");
-                } catch (NoSuchTripException noSuchTripExeption) {
-                    noSuchTripExeption.printStackTrace();
+                } catch (NoSuchTripException noSuchTripException) {
+                    noSuchTripException.printStackTrace();
                 }
                 return true;
             }
@@ -189,6 +197,7 @@ public class MainHandler implements UserInterface{
     @Override
     public void showTrips() {
         travelOffice.getTrips().forEach((s, trip) -> System.out.println(s));
+        logger.info("Wycieczki pokazane");
     }
 
     @Override
