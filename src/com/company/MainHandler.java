@@ -46,25 +46,65 @@ public class MainHandler implements UserInterface{
                 "2. Abroad Trip");
         String choice = scanner.next();
         String destination;
+        String start;
+        String end;
+        int price;
 
         switch (choice){
             case "1":
                 System.out.println("Cel wycieczki:");
                 destination = scanner.next();
-                DomesticTrip domesticTrip = new DomesticTrip(new Date(2000,10,10),
-                        new Date(2000, 10, 17), destination,
-                        200, 500);
+                scanner.nextLine();
+
+                System.out.println("Początek wycieczki (d-m-r): ");
+                start = scanner.next();
+                scanner.nextLine();
+
+                System.out.println("Koniec wycieczki (d-m-r): ");
+                end = scanner.next();
+                scanner.nextLine();
+
+                System.out.println("Price: ");
+                price = scanner.nextInt();
+                scanner.nextLine();
+
+                System.out.println("Own Arrival Discount:");
+                int ownArrivalDiscount = scanner.nextInt();
+                DomesticTrip domesticTrip = new DomesticTrip(Date.of(start), Date.of(end),
+                                        destination, price, ownArrivalDiscount);
+
                 travelOffice.addTrip(destination, domesticTrip);
                 scanner.nextLine();
+
+                System.out.println("Wycieczka dodana!");
                 return domesticTrip;
+
             case "2":
                 System.out.println("Cel wycieczki:");
                 destination = scanner.next();
-                AbroadTrip abroadTrip = new AbroadTrip(new Date(2000,10,10),
-                        new Date(2000, 10, 17), destination,
-                        200, 2500);
+                scanner.nextLine();
+
+                System.out.println("Początek wycieczki (d-m-r): ");
+                start = scanner.next();
+                scanner.nextLine();
+
+                System.out.println("Koniec wycieczki (d-m-r): ");
+                end = scanner.next();
+                scanner.nextLine();
+
+                System.out.println("Price: ");
+                price = scanner.nextInt();
+                scanner.nextLine();
+
+                System.out.println("Insurance: ");
+                int insurance = scanner.nextInt();
+                AbroadTrip abroadTrip = new AbroadTrip(Date.of(start), Date.of(end),
+                        destination, insurance, price);
+
                 travelOffice.addTrip(destination, abroadTrip);
                 scanner.nextLine();
+
+                System.out.println("Wycieczka dodana!");
                 return abroadTrip;
         }
         return null;
@@ -76,6 +116,7 @@ public class MainHandler implements UserInterface{
         String name = scanner.next();
         System.out.println("Podaj wycieczke: ");
         String destination = scanner.next();
+        scanner.nextLine();
 
         for (Customer c: travelOffice.getCustomers()){
             if (c.getName().equals(name)){
@@ -142,7 +183,7 @@ public class MainHandler implements UserInterface{
                 if (c.getTrip() != null){
                     System.out.println(c);
                 } else {
-                    System.out.println(c.getName() + ": brak wycieczki");
+                    System.out.println("Nane: " + c.getName() + " - brak wycieczki");
                 }
             }
             return;

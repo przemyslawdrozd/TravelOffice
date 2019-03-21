@@ -5,7 +5,6 @@ import java.util.HashSet;
 
 public class TravelOffice {
 
-//    private Customer[] customers = new Customer[2];
     private HashSet<Customer> customers = new HashSet<>();
     private HashMap<String, Trip> trips = new HashMap<>();
 
