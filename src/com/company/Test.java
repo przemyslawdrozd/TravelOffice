@@ -16,7 +16,7 @@ public class Test {
     public static void main(String[] args) {
 
         Handler[] handlers = globalLogger.getHandlers();
-        for (Handler h: handlers){
+        for (Handler h : handlers) {
             globalLogger.removeHandler(h);
         }
 
@@ -25,7 +25,6 @@ public class Test {
             fileHandler = new FileHandler("log.txt");
             fileHandler.setFormatter(new SimpleFormatter());
             logger.addHandler(fileHandler);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -34,7 +33,7 @@ public class Test {
         showMenu();
     }
 
-    private static void showMenu(){
+    private static void showMenu() {
         MainHandler mainHandler = new MainHandler();
         String choice = scanner.next();
 

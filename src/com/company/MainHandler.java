@@ -2,19 +2,21 @@ package com.company;
 
 import com.company.exeptions.NoSuchCustomerException;
 import com.company.exeptions.NoSuchTripException;
-import javafx.scene.input.DataFormat;
+import com.company.trips.AbroadTrip;
+import com.company.trips.DomesticTrip;
+import com.company.trips.Trip;
 
 import java.time.LocalDate;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
-public class MainHandler implements UserInterface{
+public class MainHandler implements UserInterface {
     private static Logger logger = Logger.getLogger("TravelOffice");
 
     private Scanner scanner = new Scanner(System.in);
     private TravelOffice travelOffice;
 
-    public MainHandler(){
+    public MainHandler() {
         System.out.println("1. Dodaj Klienta\n" +
                 "2. Dodaj Wycieczke\n" +
                 "3. Przypisz wycieczke do klienta\n" +
@@ -37,7 +39,7 @@ public class MainHandler implements UserInterface{
         String city = scanner.next();
 
         Customer customer = new Customer(name);
-        Address address = new Address(street,zip,city);
+        Address address = new Address(street, zip, city);
         customer.setAddress(address);
         travelOffice.addCustomer(customer);
         System.out.println("Klient dodany do bazy!");
@@ -60,7 +62,7 @@ public class MainHandler implements UserInterface{
         String[] startData;
         String[] endData;
 
-        switch (choice){
+        switch (choice) {
             case "1":
                 System.out.println("Cel wycieczki:");
                 destination = scanner.next();
@@ -83,9 +85,9 @@ public class MainHandler implements UserInterface{
                 System.out.println("Own Arrival Discount:");
                 int ownArrivalDiscount = scanner.nextInt();
                 DomesticTrip domesticTrip = new DomesticTrip(LocalDate.of(Integer.parseInt(startData[2]),
-                                        Integer.parseInt(startData[1]), Integer.parseInt(startData[0])),
+                        Integer.parseInt(startData[1]), Integer.parseInt(startData[0])),
                         LocalDate.of(Integer.parseInt(endData[2]), Integer.parseInt(endData[1]), Integer.parseInt(endData[0])),
-                                        destination, ownArrivalDiscount, price);
+                        destination, ownArrivalDiscount, price);
 
                 travelOffice.addTrip(destination, domesticTrip);
                 scanner.nextLine();
@@ -142,8 +144,8 @@ public class MainHandler implements UserInterface{
         Customer customer;
         try {
             customer = travelOffice.findCustomerByName(name);
-            for (String t: travelOffice.getTrips().keySet()){
-                if (t.equals(destination)){
+            for (String t : travelOffice.getTrips().keySet()) {
+                if (t.equals(destination)) {
                     Trip trip = travelOffice.getTrips().get(destination);
                     System.out.println("Klient " + name + " dodany do wycieczki " + destination);
                     customer.assignTrip(trip);
@@ -166,7 +168,7 @@ public class MainHandler implements UserInterface{
         String name = scanner.next();
 
         return travelOffice.getCustomers().removeIf(customer -> {
-            if (customer.getName().equals(name)){
+            if (customer.getName().equals(name)) {
                 System.out.println("Klient " + name + " usunięty!");
                 return true;
             }
@@ -179,8 +181,8 @@ public class MainHandler implements UserInterface{
         System.out.println("Podaj nazwe wycieczki zeby usunąc: ");
         String destination = scanner.next();
 
-        for (String t: travelOffice.getTrips().keySet()){
-            if (t.equals(destination)){
+        for (String t : travelOffice.getTrips().keySet()) {
+            if (t.equals(destination)) {
                 try {
                     travelOffice.removeTrip(destination);
                     System.out.println("Wycieczka do " + destination + " usunieta!");
@@ -203,8 +205,8 @@ public class MainHandler implements UserInterface{
     @Override
     public void showCustomers() {
 
-        travelOffice.getCustomers().forEach(customer ->{
-            if (customer.getTrip() != null){
+        travelOffice.getCustomers().forEach(customer -> {
+            if (customer.getTrip() != null) {
                 System.out.println(customer);
             } else {
                 System.out.println("Name: " + customer.getName() + " | " +

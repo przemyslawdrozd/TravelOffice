@@ -1,4 +1,4 @@
-package com.company;
+package com.company.trips;
 
 import java.time.LocalDate;
 
@@ -17,7 +17,7 @@ public abstract class Trip {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Destination: " + destination +
                 "\nStart: " + start.toString() +
                 "\nEnd: " + end.toString() +

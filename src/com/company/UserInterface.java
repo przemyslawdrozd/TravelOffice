@@ -1,5 +1,7 @@
 package com.company;
 
+import com.company.trips.Trip;
+
 public interface UserInterface {
 
     Customer addCustomer();

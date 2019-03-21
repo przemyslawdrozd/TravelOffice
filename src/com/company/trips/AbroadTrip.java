@@ -1,4 +1,4 @@
-package com.company;
+package com.company.trips;
 
 import java.time.LocalDate;
 

@@ -1,5 +1,7 @@
 package com.company;
 
+import com.company.trips.Trip;
+
 public class Customer {
 
     private String name;
@@ -19,7 +21,7 @@ public class Customer {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Name: " + name + "\n" +
                 address.toString() + "\n" +
                 trip.toString();
