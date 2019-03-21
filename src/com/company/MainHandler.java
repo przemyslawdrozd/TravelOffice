@@ -133,8 +133,8 @@ public class MainHandler implements UserInterface{
             }
             System.out.println("Nie ma takiej wycieczki");
             return;
-        } catch (NoSuchCustomerException noSuchCustomerExeption) {
-            noSuchCustomerExeption.printStackTrace();
+        } catch (NoSuchCustomerException noSuchCustomerException) {
+            noSuchCustomerException.printStackTrace();
         }
         System.out.println("Nie ma takiego klienta");
     }
@@ -144,24 +144,18 @@ public class MainHandler implements UserInterface{
         System.out.println("Podaj imie klienta:");
         String name = scanner.next();
 
-        for (Customer c: travelOffice.getCustomers()){
-            if (c.getName().equals(name)){
-                try {
-                    travelOffice.removeCustomer(c);
-                    System.out.println("Klinet " + name + " usuniety!");
-                } catch (NoSuchCustomerException e) {
-                    e.printStackTrace();
-                }
+        return travelOffice.getCustomers().removeIf(customer -> {
+            if (customer.getName().equals(name)){
+                System.out.println("Klient " + name + " usunięty!");
                 return true;
             }
-        }
-        System.out.println("Klient " + name + " nie istnieje!");
-        return false;
+            return false;
+        });
     }
 
     @Override
     public boolean removeTrip() {
-        System.out.println("Podaj nazwe wycieczki zeby usunąc:");
+        System.out.println("Podaj nazwe wycieczki zeby usunąc: ");
         String destination = scanner.next();
 
         for (String t: travelOffice.getTrips().keySet()){
@@ -181,23 +175,19 @@ public class MainHandler implements UserInterface{
 
     @Override
     public void showTrips() {
-        for (String t: travelOffice.getTrips().keySet()){
-            System.out.println(t);
-        }
+        travelOffice.getTrips().forEach((s, trip) -> System.out.println(s));
     }
 
     @Override
     public void showCustomers() {
-        if (travelOffice.getCustomers() != null) {
-            for (Customer c : travelOffice.getCustomers()) {
-                if (c.getTrip() != null){
-                    System.out.println(c);
-                } else {
-                    System.out.println("Name: " + c.getName() + " - brak wycieczki");
-                }
+
+        travelOffice.getCustomers().forEach(customer ->{
+            if (customer.getTrip() != null){
+                System.out.println(customer);
+            } else {
+                System.out.println("Name: " + customer.getName() + " | " +
+                        customer.getAddress().toString() + " - brak wycieczki");
             }
-            return;
-        }
-        System.out.println("Nie ma klientów");
+        });
     }
 }
