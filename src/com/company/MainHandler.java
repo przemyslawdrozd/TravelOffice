@@ -1,6 +1,8 @@
 package com.company;
 
-import java.util.HashMap;
+import com.company.exeptions.NoSuchCustomerException;
+import com.company.exeptions.NoSuchTripException;
+
 import java.util.Scanner;
 
 public class MainHandler implements UserInterface{
@@ -71,7 +73,7 @@ public class MainHandler implements UserInterface{
                 System.out.println("Own Arrival Discount:");
                 int ownArrivalDiscount = scanner.nextInt();
                 DomesticTrip domesticTrip = new DomesticTrip(Date.of(start), Date.of(end),
-                                        destination, price, ownArrivalDiscount);
+                                        destination, ownArrivalDiscount, price);
 
                 travelOffice.addTrip(destination, domesticTrip);
                 scanner.nextLine();
@@ -118,19 +120,21 @@ public class MainHandler implements UserInterface{
         String destination = scanner.next();
         scanner.nextLine();
 
-        for (Customer c: travelOffice.getCustomers()){
-            if (c.getName().equals(name)){
-                for (String t: travelOffice.getTrips().keySet()){
-                    if (t.equals(destination)){
-                        Trip trip = travelOffice.getTrips().get(destination);
-                        System.out.println("Klient " + name + " dodany do wycieczki " + destination);
-                        c.assignTrip(trip);
-                        return;
-                    }
+        Customer customer;
+        try {
+            customer = travelOffice.findCustomerByName(name);
+            for (String t: travelOffice.getTrips().keySet()){
+                if (t.equals(destination)){
+                    Trip trip = travelOffice.getTrips().get(destination);
+                    System.out.println("Klient " + name + " dodany do wycieczki " + destination);
+                    customer.assignTrip(trip);
+                    return;
                 }
-                System.out.println("Nie ma takiej wycieczki");
-                return;
             }
+            System.out.println("Nie ma takiej wycieczki");
+            return;
+        } catch (NoSuchCustomerException noSuchCustomerExeption) {
+            noSuchCustomerExeption.printStackTrace();
         }
         System.out.println("Nie ma takiego klienta");
     }
@@ -141,10 +145,13 @@ public class MainHandler implements UserInterface{
         String name = scanner.next();
 
         for (Customer c: travelOffice.getCustomers()){
-
             if (c.getName().equals(name)){
-                System.out.println("Klinet " + name + " usuniety!");
-                travelOffice.removeCustomer(c);
+                try {
+                    travelOffice.removeCustomer(c);
+                    System.out.println("Klinet " + name + " usuniety!");
+                } catch (NoSuchCustomerException e) {
+                    e.printStackTrace();
+                }
                 return true;
             }
         }
@@ -158,10 +165,13 @@ public class MainHandler implements UserInterface{
         String destination = scanner.next();
 
         for (String t: travelOffice.getTrips().keySet()){
-
             if (t.equals(destination)){
-                System.out.println("Wycieczka do " + destination + " usunieta!");
-                travelOffice.getTrips().remove(destination);
+                try {
+                    travelOffice.removeTrip(destination);
+                    System.out.println("Wycieczka do " + destination + " usunieta!");
+                } catch (NoSuchTripException noSuchTripExeption) {
+                    noSuchTripExeption.printStackTrace();
+                }
                 return true;
             }
         }
@@ -183,7 +193,7 @@ public class MainHandler implements UserInterface{
                 if (c.getTrip() != null){
                     System.out.println(c);
                 } else {
-                    System.out.println("Nane: " + c.getName() + " - brak wycieczki");
+                    System.out.println("Name: " + c.getName() + " - brak wycieczki");
                 }
             }
             return;

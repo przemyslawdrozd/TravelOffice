@@ -1,5 +1,8 @@
 package com.company;
 
+import com.company.exeptions.NoSuchCustomerException;
+import com.company.exeptions.NoSuchTripException;
+
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -12,25 +15,28 @@ public class TravelOffice {
         trips.put(tripName, trip);
     }
 
-    public boolean removeTrip(String tripName){
+    public boolean removeTrip(String tripName) throws NoSuchTripException {
         if (trips.containsKey(tripName)) {
             trips.remove(tripName);
             return true;
         }
-        return false;
+        throw new NoSuchTripException("Trip not founded");
     }
 
-    public Customer findCustomerByName(String name){
+    public Customer findCustomerByName(String name) throws NoSuchCustomerException {
         for (Customer c: customers){
             if (c.getName().equals(name)){
                 return c;
             }
         }
-        return null;
+        throw new NoSuchCustomerException("Customer not founded");
     }
 
-    public boolean removeCustomer(Customer c){
-        return customers.remove(c);
+    public boolean removeCustomer(Customer c) throws NoSuchCustomerException {
+        if (customers.remove(c)){
+            return true;
+        }
+        throw new NoSuchCustomerException("Customer not founded");
     }
 
     public Customer addCustomer(Customer customer){
