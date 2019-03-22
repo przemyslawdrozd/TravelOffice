@@ -1,16 +1,2 @@
-mar 21, 2019 3:36:30 PM com.company.Test main
+mar 22, 2019 11:51:20 AM com.company.Test main
 INFO: start
-mar 21, 2019 3:36:40 PM com.company.MainHandler addCustomer
-INFO: Klient jan dodany!
-mar 21, 2019 3:39:04 PM com.company.MainHandler addTrip
-INFO: Wycieczka kato dodana do listy!
-mar 21, 2019 3:39:23 PM com.company.MainHandler assign
-INFO: Klient jan dodany do wycieczki kato
-mar 21, 2019 3:39:42 PM com.company.MainHandler showTrips
-INFO: Wycieczki pokazane
-mar 21, 2019 3:39:55 PM com.company.MainHandler addCustomer
-INFO: Klient tom dodany!
-mar 21, 2019 3:40:13 PM com.company.MainHandler assign
-INFO: Klient tom dodany do wycieczki kato
-mar 21, 2019 3:40:46 PM com.company.MainHandler addCustomer
-INFO: Klient tim dodany!
