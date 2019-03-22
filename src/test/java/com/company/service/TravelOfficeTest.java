@@ -17,7 +17,6 @@ import java.util.HashSet;
 import java.util.Map;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TravelOfficeTest {
@@ -96,6 +95,60 @@ public class TravelOfficeTest {
         assertNotNull(travelOfficeService.removeTrip(t.getDestination()));
     }
 
+    @Test
+    public void assign() throws NoSuchCustomerException {
+        // Given
+        Customer c = new Customer("test");
+        AbroadTrip trip = new AbroadTrip(LocalDate.of(2000, 10, 15),
+                LocalDate.of(2000, 10, 20), "Italy", 50, 300);
+
+        // When
+        travelOfficeService.addCustomer(c);
+        travelOfficeService.addTrip(trip.getDestination(), trip);
+        boolean b = travelOfficeService.assign(c, trip);
+
+        // Then
+        assertTrue(b);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void assignNoTrip() throws NoSuchCustomerException {
+        // Given
+        Customer c = new Customer("test");
+        DomesticTrip trip = null;
+
+        // When
+        travelOfficeService.addCustomer(c);
+        boolean b = travelOfficeService.assign(c, trip);
+
+        // Then
+        assertTrue(b);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void assignNoCustomer() throws NoSuchCustomerException {
+        // Given
+        Customer c = null;
+        AbroadTrip trip = new AbroadTrip(LocalDate.of(2000, 10, 15),
+                LocalDate.of(2000, 10, 20), "Italy", 50, 300);
+        // When
+        travelOfficeService.addTrip(trip.getDestination(), trip);
+        boolean b = travelOfficeService.assign(c, trip);
+        // Then
+        assertTrue(b);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void assignNoParameters() throws NoSuchCustomerException {
+        // Given
+        Customer c = null;
+        AbroadTrip trip = null;
+        // When
+        boolean b = travelOfficeService.assign(c, trip);
+        // Then
+        assertTrue(b);
+    }
+
     @org.junit.Test(expected = NoSuchCustomerException.class)
     public void findCustomerByNameWhenNull() throws NoSuchCustomerException {
 
@@ -150,7 +203,7 @@ public class TravelOfficeTest {
         // When
         customerSize = travelOfficeService.getCustomerCount();
         // Then
-        assertFalse(customerSize <= 0);
+        assertTrue(customerSize >= 0);
     }
 
     @org.junit.Test
